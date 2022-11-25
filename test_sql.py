@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS likes (
 )
 """
 
-connection = create_connection("sm_app.sqlite")
+
 
 """
 execute_query(connection, create_users_table)
@@ -134,7 +134,7 @@ def execute_read_query(connection, query):
 
 
 
-delete_comment = "DELETE FROM users WHERE id = 1"
-execute_query(connection, delete_comment)
+#delete_comment = "DELETE FROM users WHERE id = 1"
+#execute_query(connection, delete_comment)
 
 
