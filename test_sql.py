@@ -59,8 +59,6 @@ CREATE TABLE IF NOT EXISTS likes (
 )
 """
 
-
-
 """
 execute_query(connection, create_users_table)
 execute_query(connection, create_posts_table)
