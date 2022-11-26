@@ -6,7 +6,6 @@ import random
 import time
 
 #download music csv
-
 def get_music_csv():
     musicCSVURL = "https://corgis-edu.github.io/corgis/datasets/csv/music/music.csv"
 
@@ -16,7 +15,6 @@ def get_music_csv():
     return
 
 #get artists with id, name, genre
-
 def generateArtists():
 
     get_music_csv()
@@ -34,31 +32,33 @@ def generateArtists():
     return artistList
 
 #get songs with id, name, year, tempo, duration, language, genre
-
 def generateSongs():
     get_music_csv()
 
     songList = []
     df = pd.read_csv('music.csv')
 
-    songs = df[['song.id', 'song.title', 'song.year', 'song.tempo', 'song.duration', 'artist.terms']].copy().drop_duplicates()
+    songs = df[['song.id', 'song.title', 'song.year', 'song.tempo', 'song.duration', 'artist.terms', 'artist.id']].copy().drop_duplicates()
 
     songsTuples = list(songs.itertuples(index=False, name=None))
+    songToArtist = dict()
 
-    for id,b,year,tempo,duration, genre in songsTuples:
+    for id, b, year, tempo, duration, genre, artistid in songsTuples:
         if year != 0:
-            songList.append((id,id[:5]+"SONG", year, int(tempo), int(duration), "English"))
+            songList.append((id,id[:5]+" SONGNAME", year, int(tempo), int(duration), "English", genre, artistid))
+            songToArtist[id] = artistid
 
-    return songList
+    return songList, songToArtist
 
+print(generateSongs()[0])
 
-#generate fake users with username, account creation date
-
-#from https://stackoverflow.com/questions/553303/generate-a-random-date-between-two-other-dates    
+#generate fake users with username, account creation date  
 def random_date_between(start, end):
-    """Get a time at a proportion of a range of two formatted times.
     """
-    time_format = '%m/%d/%Y'
+    from https://stackoverflow.com/questions/553303/generate-a-random-date-between-two-other-dates
+    Get a time at a proportion of a range of two formatted times.
+    """
+    time_format = '%Y-%m-%d'
     proportion = random.random()
 
     #start and end should be strings specifying times formatted in the given format (strftime-style), giving an interval [start, end].
@@ -85,11 +85,13 @@ def generateUsers(count = 10, wordfile = "/usr/share/dict/cracklib-small", seed 
         number = random.randint(100,999)
 
         userName= word + str(number)
-        userJoinDate = random_date_between("1/1/2008", "1/1/2030")
+        userJoinDate = random_date_between("2008-01-01", "2030-01-01")
         if userName not in userList:
             userList.add((userName, userJoinDate))
     
     return sorted(list(userList))
+
+#print(generateUsers())
 
 
 #generate fake friends

@@ -11,6 +11,8 @@ def create_connection(path):
     
     return connection
 
+connection = create_connection('mydbbbb.sqlite')
+
 def execute_query(connection, query):
     cursor = connection.cursor()
     try:
