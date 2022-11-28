@@ -40,7 +40,7 @@ def generate_artist_id():
     x = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(17))
     return 'A' + x
 
-def add_artist_query(artistName, artistID = None, artistCountry = None):
+def add_artist_query(artistName, artistID = None, artistCountry = None, connection=None):
     #generate id
     if artistID is None:
 
@@ -90,7 +90,7 @@ def generate_song_id():
 get_sid_list_query = """
     SELECT sID from songs
 """
-def add_song_query(songName, songYear, songTempo, songDuration, songLanguage, songGenre, songArtist, songID = None):
+def add_song_query(songName, songYear, songTempo, songDuration, songLanguage, songGenre, songArtist, songID = None, connection=None):
     
     #generate id
     if songID is None:
@@ -121,6 +121,18 @@ CREATE TABLE IF NOT EXISTS friends(
     FOREIGN KEY (friendB) REFERENCES users (uID)
 );
 """
+
+def add_friend_query(friendA, friendB):
+    query = f"""
+    INSERT INTO
+        friends (friendA, friendB)
+    VALUES
+        ({friendA}, {friendB}),
+        ({friendB}, {friendA})
+    """
+
+    return query
+
 #SONG LIKES table
 
 create_song_likes_table = """
@@ -132,6 +144,15 @@ CREATE TABLE IF NOT EXISTS songlikes(
     FOREIGN KEY (songID) REFERENCES SONGS (sID)
 );
 """
+
+def add_song_like_query(user, song):
+    query = f"""
+    INSERT INTO
+        songlikes (userID, songID)
+        VALUES ({user}, "{song}")
+    """
+    return query
+    
 #USER PLAYS song table count
 
 create_song_plays_table = """
@@ -139,11 +160,29 @@ CREATE TABLE IF NOT EXISTS songplays(
     songPLAYID INTEGER PRIMARY KEY AUTOINCREMENT,
     userID INTEGER NOT NULL,
     songID TEXT NOT NULL,
-    playDATE STRING NOT NULL,
+    playDATE TEXT DEFAULT (CURRENT_DATE),
     FOREIGN KEY (userID) REFERENCES USERS (uID),
     FOREIGN KEY (songID) REFERENCES SONGS (sID)
 );
 """
+
+def add_song_play_query(user, song, date=None):
+
+    if date is None:
+
+        query = f"""
+        INSERT INTO
+            songplays (userID, songID)
+            VALUES ({user}, "{song}")
+        """
+        return query
+    else:
+        query = f"""
+        INSERT INTO
+            songplays (userID, songID, playDATE)
+            VALUES ({user}, "{song}", "{date}")
+        """
+        return query
 
 #PLAYLIST table (with owner rel)
 
@@ -156,10 +195,20 @@ CREATE TABLE IF NOT EXISTS playlists(
 );
 
 """
+
+def add_playlist_query(owner, description):
+    query = f"""
+        INSERT INTO
+            playlists (plOwner, plDesc)
+            VALUES ({owner}, "{description}")
+        """
+    return query
+
+
 #playlist includes song table
 
 create_playlist_includes_table = """
-CREATE TABLE IF NOT EXISTS playlists(
+CREATE TABLE IF NOT EXISTS playlistincludes(
     inclID INTEGER PRIMARY KEY AUTOINCREMENT,
     playlist INTEGER NOT NULL,
     song TEXT NOT NULL,
@@ -168,6 +217,14 @@ CREATE TABLE IF NOT EXISTS playlists(
 );
 
 """
+
+def add_playlist_includes(playlist, song):
+    query = f"""
+        INSERT INTO
+            playlistincludes (playlist, song)
+            VALUES ({playlist}, "{song}")
+        """
+    return query
 
 #user follows playlist table
 
@@ -181,43 +238,16 @@ CREATE TABLE IF NOT EXISTS playlistfollows(
 );
 """
 
-
-dbfile = "spodify.sqlite"
-connection = create_connection(dbfile)
-
-
-
-execute_query(connection, create_users_table)
-execute_query(connection, create_artists_table)
-execute_query(connection, create_song_table)
-execute_query(connection, create_friends_table)
-execute_query(connection, create_song_likes_table)
-execute_query(connection, create_song_plays_table)
-execute_query(connection, create_playlist_table)
-execute_query(connection, create_playlist_includes_table)
-execute_query(connection, create_user_follows_playlist_table)
-
-#execute_query(connection, add_artist_query(artistID = "1234HJL", artistName ="my band",
-#                                            artistCountry = "United States"))
-
-"""
-execute_query(connection, add_song_query(
-    songName = "newid1234",
-    songYear = 2003,
-    songTempo = 123,
-    songDuration = 300,
-    songLanguage = "French",
-    songGenre = "rock",
-    songArtist = "1234HJL",
-    songID = "DEEZNUTS"
-))
-"""
+def add_playlist_follow(user, playlist):
+    query = f"""
+        INSERT INTO
+            playlistfollows (user, playlist)
+            VALUES ({user}, "{playlist}")
+        """
+    return query
 
 
 
-#execute_query(connection, create_artists_table)
-#execute_query(connection, create_users_table)
-#execute_query(connection, add_user_query('albertc123', '2034-06-01'))
 
 
 

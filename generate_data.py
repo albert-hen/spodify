@@ -22,12 +22,12 @@ def generateArtists():
     artistList = []
     df = pd.read_csv('music.csv')
 
-    artists = df[['artist.id', 'artist.name']].copy().drop_duplicates()
+    artists = df[['artist.id', 'artist.name']].copy().drop_duplicates(subset=['artist.id'])
 
     artistTuples = list(artists.itertuples(index=False, name=None))
 
     for a,b in artistTuples:
-        artistList.append((a,b, 'United States'))
+        artistList.append((a,b.replace("\"",""), 'United States'))
     
     return artistList
 
@@ -48,9 +48,8 @@ def generateSongs():
             songList.append((id,id[:5]+" SONGNAME", year, int(tempo), int(duration), "English", genre, artistid))
             songToArtist[id] = artistid
 
-    return songList, songToArtist
+    return songList
 
-print(generateSongs()[0])
 
 #generate fake users with username, account creation date  
 def random_date_between(start, end):
