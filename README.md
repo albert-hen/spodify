@@ -8,7 +8,6 @@ to load the data run
 
 ```
 rm spodify.sqlite && python3 spodify_load_demo.py
-
 ```
 
 to run test script run
