@@ -53,7 +53,7 @@ brightener462                 |         14
 clonic922                     |         14
 """
 
-#demo 
+#demo top_friend_played_genres_query
 user = "fortunately288"
 out = execute_read_query(connection, top_friend_played_genres_query(user))
 print(f"\nTop 10 Genres played among friends of {user}\n")

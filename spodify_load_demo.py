@@ -71,10 +71,10 @@ for n, (fA, fB) in enumerate(friendpairs):
 
 #load song plays into database
 
-songplays = generateSongPlays(users, songs)
+songplays = generateSongPlays(users, songs, count=6000)
 count = len(songplays)
 for n, (user, song, date) in enumerate(songplays):
-    print('hi')
+    
     print(f"{n+1}/{count} songplays loaded")
     execute_query(connection, add_song_play_query(user, song, date))
 
