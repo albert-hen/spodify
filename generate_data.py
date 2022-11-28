@@ -90,14 +90,30 @@ def generateUsers(count = 10, wordfile = "/usr/share/dict/cracklib-small", seed 
     
     return sorted(list(userList))
 
-#print(generateUsers())
-
-
 #generate fake friends
 
-#generate fake playlist
+def generateFriends(userList, count = 500):
+    friendpairs = set()
 
+    for i in range(count):
+        (a,b), (c,d) = random.sample(userList,k=2)
+     
+        if (a,c) not in friendpairs and (c,a) not in friendpairs:
+            friendpairs.add((a,c))
 
+    return list(friendpairs)
 
+#generate song plays
 
-#generate fake plays 
+def generateSongPlays(userlist, songlist, count=1000):
+    #user song date
+    songplays = []
+
+    for i in range(count):
+        user, userjoin = random.choice(userlist)
+        songid = random.choice(songlist)[0]
+        date = random_date_between(userjoin, "2030-01-01")
+
+        songplays.append((user,songid,date))
+
+    return songplays

@@ -6,8 +6,7 @@ import string
 
 create_users_table = """
 CREATE TABLE IF NOT EXISTS users (
-    uID INTEGER PRIMARY KEY AUTOINCREMENT,
-    uName TEXT NOT NULL,
+    uName TEXT PRIMARY KEY,
     uJoinDate STRING NOT NULL
 );
 """
@@ -114,11 +113,11 @@ def add_song_query(songName, songYear, songTempo, songDuration, songLanguage, so
 
 create_friends_table = """
 CREATE TABLE IF NOT EXISTS friends(
-    fID INTEGER PRIMARY KEY AUTOINCREMENT,
-    friendA INTEGER NOT NULL,
-    friendB INTEGER NOT NULL,
-    FOREIGN KEY (friendA) REFERENCES users (uID),
-    FOREIGN KEY (friendB) REFERENCES users (uID)
+    friendA TEXT NOT NULL,
+    friendB TEXT NOT NULL,
+    FOREIGN KEY (friendA) REFERENCES users (uName),
+    FOREIGN KEY (friendB) REFERENCES users (uName),
+    PRIMARY KEY (friendA, friendB)
 );
 """
 
@@ -127,8 +126,8 @@ def add_friend_query(friendA, friendB):
     INSERT INTO
         friends (friendA, friendB)
     VALUES
-        ({friendA}, {friendB}),
-        ({friendB}, {friendA})
+        ("{friendA}", "{friendB}"),
+        ("{friendB}", "{friendA}")
     """
 
     return query
@@ -138,9 +137,9 @@ def add_friend_query(friendA, friendB):
 create_song_likes_table = """
 CREATE TABLE IF NOT EXISTS songlikes(
     songlikeID INTEGER PRIMARY KEY AUTOINCREMENT,
-    userID INTEGER NOT NULL,
+    userName TEXT NOT NULL,
     songID TEXT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES USERS (uID),
+    FOREIGN KEY (userName) REFERENCES USERS (uName),
     FOREIGN KEY (songID) REFERENCES SONGS (sID)
 );
 """
@@ -148,8 +147,8 @@ CREATE TABLE IF NOT EXISTS songlikes(
 def add_song_like_query(user, song):
     query = f"""
     INSERT INTO
-        songlikes (userID, songID)
-        VALUES ({user}, "{song}")
+        songlikes (userName, songID)
+        VALUES ("{user}", "{song}")
     """
     return query
     
@@ -158,29 +157,28 @@ def add_song_like_query(user, song):
 create_song_plays_table = """
 CREATE TABLE IF NOT EXISTS songplays(
     songPLAYID INTEGER PRIMARY KEY AUTOINCREMENT,
-    userID INTEGER NOT NULL,
+    userName TEXT NOT NULL,
     songID TEXT NOT NULL,
     playDATE TEXT DEFAULT (CURRENT_DATE),
-    FOREIGN KEY (userID) REFERENCES USERS (uID),
+    FOREIGN KEY (userName) REFERENCES USERS (uName),
     FOREIGN KEY (songID) REFERENCES SONGS (sID)
 );
 """
 
 def add_song_play_query(user, song, date=None):
-
     if date is None:
 
         query = f"""
         INSERT INTO
-            songplays (userID, songID)
-            VALUES ({user}, "{song}")
+            songplays (userName, songID)
+            VALUES ("{user}", "{song}")
         """
         return query
     else:
         query = f"""
         INSERT INTO
-            songplays (userID, songID, playDATE)
-            VALUES ({user}, "{song}", "{date}")
+            songplays (userName, songID, playDATE)
+            VALUES ("{user}", "{song}", "{date}")
         """
         return query
 
@@ -189,9 +187,9 @@ def add_song_play_query(user, song, date=None):
 create_playlist_table = """
 CREATE TABLE IF NOT EXISTS playlists(
     plID INTEGER PRIMARY KEY AUTOINCREMENT,
-    plOwner INTEGER NOT NULL,
+    plOwner TEXT NOT NULL,
     plDesc TEXT NOT NULL,
-    FOREIGN KEY (plOwner) REFERENCES USERS (uID)
+    FOREIGN KEY (plOwner) REFERENCES USERS (uName)
 );
 
 """
@@ -200,7 +198,7 @@ def add_playlist_query(owner, description):
     query = f"""
         INSERT INTO
             playlists (plOwner, plDesc)
-            VALUES ({owner}, "{description}")
+            VALUES ("{owner}", "{description}")
         """
     return query
 
@@ -231,9 +229,9 @@ def add_playlist_includes(playlist, song):
 create_user_follows_playlist_table = """
 CREATE TABLE IF NOT EXISTS playlistfollows(
     plFollowID INTEGER PRIMARY KEY AUTOINCREMENT,
-    user INTEGER NOT NULL,
+    user TEXT NOT NULL,
     playlist INTEGER NOT NULL,
-    FOREIGN KEY (user) REFERENCES USERS (uID),
+    FOREIGN KEY (user) REFERENCES USERS (uName),
     FOREIGN KEY (playlist) REFERENCES playlists (plID)
 );
 """
@@ -242,7 +240,7 @@ def add_playlist_follow(user, playlist):
     query = f"""
         INSERT INTO
             playlistfollows (user, playlist)
-            VALUES ({user}, "{playlist}")
+            VALUES ("{user}", "{playlist}")
         """
     return query
 

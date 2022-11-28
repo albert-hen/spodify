@@ -26,12 +26,14 @@ artists = generateArtists()
 songs = generateSongs()
 #username joindate
 users = generateUsers(count = 100)
+#friendpair
+friendpairs = generateFriends(users)
 
 
 #load artists into database
 count = len(artists)
 for n, (id, name, country) in enumerate(artists):
-    break
+    
     print(f"{n+1}/{count} artists loaded")
     #print(id, name, country)
     execute_query(connection, add_artist_query(artistName=name, artistID=id, artistCountry=country))
@@ -40,7 +42,7 @@ for n, (id, name, country) in enumerate(artists):
 #load users into database
 count = len(users)
 for n, (username, joindate) in enumerate(users):
-    break
+    
     print(f"{n+1}/{count} users loaded")
     execute_query(connection, add_user_query(userName=username, joinDate=joindate))
 
@@ -48,6 +50,7 @@ for n, (username, joindate) in enumerate(users):
 #load songs into database
 count = len(songs)
 for n, (id, name, year, tempo, duration, lang, genre, artistid) in enumerate(songs):
+    
     print(f"{n+1}/{count} songs loaded")
     execute_query(connection, add_song_query(
                                             songID=id,
@@ -59,29 +62,20 @@ for n, (id, name, year, tempo, duration, lang, genre, artistid) in enumerate(son
                                             songGenre=genre,
                                             songArtist=artistid))
 
+#load friends into database
+count = len(friendpairs)
+for n, (fA, fB) in enumerate(friendpairs):
+    
+    print(f"{n+1}/{count} friendpairs loaded")
+    execute_query(connection, add_friend_query(friendA=fA, friendB=fB))
 
-print('done loading data')
+#load song plays into database
 
-#execute_query(connection, add_artist_query(artistID = "1234HJL", artistName ="my band",
-#                                            artistCountry = "United States"))
+songplays = generateSongPlays(users, songs)
+count = len(songplays)
+for n, (user, song, date) in enumerate(songplays):
+    print('hi')
+    print(f"{n+1}/{count} songplays loaded")
+    execute_query(connection, add_song_play_query(user, song, date))
 
-"""
-execute_query(connection, add_song_query(
-    songName = "newid1234",
-    songYear = 2003,
-    songTempo = 123,
-    songDuration = 300,
-    songLanguage = "French",
-    songGenre = "rock",
-    songArtist = "1234HJL",
-    songID = "DEEZNUTS"
-))
-"""
-#execute_query(connection, create_artists_table)
-#execute_query(connection, create_users_table)
-#execute_query(connection, add_user_query('albertc123', '2034-06-01'))
 
-#execute_query(connection, add_user_query('albert', '2030-05-01'))
-#execute_query(connection, add_friend_query(2,3))
-#execute_query(connection, add_song_like_query(1, 'that song'))
-#execute_query(connection, add_song_play_query(1, "that song", '2030-05-02'))
