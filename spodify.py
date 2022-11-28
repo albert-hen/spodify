@@ -2,6 +2,8 @@ from sqlite_setup import create_connection, execute_query, execute_read_query
 import random
 import string
 
+#USERS
+
 create_users_table = """
 CREATE TABLE IF NOT EXISTS users (
     uID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,6 +20,8 @@ def add_user_query(userName, joinDate=None):
     """
 
     return query
+
+#ARTISTS
 
 create_artists_table = """
 CREATE TABLE IF NOT EXISTS artists (
@@ -60,6 +64,8 @@ def add_artist_query(artistName, artistID = None, artistCountry = None):
     """
 
     return query
+
+#SONGS
 
 create_song_table = """
 CREATE TABLE IF NOT EXISTS songs (
@@ -104,27 +110,95 @@ def add_song_query(songName, songYear, songTempo, songDuration, songLanguage, so
 
     return query
 
-#friends table
-#user likes song table
-#user plays song table count
+#FRIENDS table
 
-#playlist table (with owner rel)
+create_friends_table = """
+CREATE TABLE IF NOT EXISTS friends(
+    fID INTEGER PRIMARY KEY AUTOINCREMENT,
+    friendA INTEGER NOT NULL,
+    friendB INTEGER NOT NULL,
+    FOREIGN KEY (friendA) REFERENCES users (uID),
+    FOREIGN KEY (friendB) REFERENCES users (uID)
+);
+"""
+#SONG LIKES table
+
+create_song_likes_table = """
+CREATE TABLE IF NOT EXISTS songlikes(
+    songlikeID INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER NOT NULL,
+    songID TEXT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES USERS (uID),
+    FOREIGN KEY (songID) REFERENCES SONGS (sID)
+);
+"""
+#USER PLAYS song table count
+
+create_song_plays_table = """
+CREATE TABLE IF NOT EXISTS songplays(
+    songPLAYID INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER NOT NULL,
+    songID TEXT NOT NULL,
+    playDATE STRING NOT NULL,
+    FOREIGN KEY (userID) REFERENCES USERS (uID),
+    FOREIGN KEY (songID) REFERENCES SONGS (sID)
+);
+"""
+
+#PLAYLIST table (with owner rel)
+
+create_playlist_table = """
+CREATE TABLE IF NOT EXISTS playlists(
+    plID INTEGER PRIMARY KEY AUTOINCREMENT,
+    plOwner INTEGER NOT NULL,
+    plDesc TEXT NOT NULL,
+    FOREIGN KEY (plOwner) REFERENCES USERS (uID)
+);
+
+"""
 #playlist includes song table
 
+create_playlist_includes_table = """
+CREATE TABLE IF NOT EXISTS playlists(
+    inclID INTEGER PRIMARY KEY AUTOINCREMENT,
+    playlist INTEGER NOT NULL,
+    song TEXT NOT NULL,
+    FOREIGN KEY (playlist) REFERENCES PLAYLISTS (plID),
+    FOREIGN KEY (song) REFERENCES songs (sID)
+);
+
+"""
 
 #user follows playlist table
+
+create_user_follows_playlist_table = """
+CREATE TABLE IF NOT EXISTS playlistfollows(
+    plFollowID INTEGER PRIMARY KEY AUTOINCREMENT,
+    user INTEGER NOT NULL,
+    playlist INTEGER NOT NULL,
+    FOREIGN KEY (user) REFERENCES USERS (uID),
+    FOREIGN KEY (playlist) REFERENCES playlists (plID)
+);
+"""
 
 
 dbfile = "spodify.sqlite"
 connection = create_connection(dbfile)
 
 
-execute_query(connection, create_song_table)
-execute_query(connection, create_artists_table)
-execute_query(connection, create_users_table)
 
-execute_query(connection, add_artist_query(artistID = "1234HJL", artistName ="my band",
-                                            artistCountry = "United States"))
+execute_query(connection, create_users_table)
+execute_query(connection, create_artists_table)
+execute_query(connection, create_song_table)
+execute_query(connection, create_friends_table)
+execute_query(connection, create_song_likes_table)
+execute_query(connection, create_song_plays_table)
+execute_query(connection, create_playlist_table)
+execute_query(connection, create_playlist_includes_table)
+execute_query(connection, create_user_follows_playlist_table)
+
+#execute_query(connection, add_artist_query(artistID = "1234HJL", artistName ="my band",
+#                                            artistCountry = "United States"))
 
 """
 execute_query(connection, add_song_query(
@@ -143,7 +217,7 @@ execute_query(connection, add_song_query(
 
 #execute_query(connection, create_artists_table)
 #execute_query(connection, create_users_table)
-execute_query(connection, add_user_query('albertc123', '2034-06-01'))
+#execute_query(connection, add_user_query('albertc123', '2034-06-01'))
 
 
 
