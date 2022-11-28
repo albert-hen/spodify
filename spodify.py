@@ -245,6 +245,69 @@ def add_playlist_follow(user, playlist):
     return query
 
 
+#complex queries
+
+
+#find the top 10 genres played among friends of a user
+def top_friend_played_genres_query(user):
+
+    query = f"""
+    select sGenre, count(sGenre)
+
+    from friends
+
+    join songplays on friends.friendB = songplays.userName
+
+    join songs on songplays.songID=songs.sID
+
+    where friendA = "{user}"
+
+    group by sGenre
+
+    order by count(sGenre) desc
+
+    limit 10
+    
+    """
+
+    return query
+
+
+#returns top 10 users with the most friends
+def most_popular_users_query():
+    query = """
+    select friendA, count(friendA)
+    from friends
+    group by friendA
+
+    order by count(friendA) desc
+
+    limit 10
+
+    """
+
+    return query
+
+#artists with most plays in a given year
+def most_listened_artist_year(year):
+    query = f"""
+    select artists.aName "Artist", count(artists.aName) "Listens"
+    from songplays
+
+    join songs on songs.sID=songplays.songID
+    join artists on songs.sArtist=artists.aID
+    where date(songplays.playDate) between "{year}-01-01" and "{year}-12-31"
+
+    group by artists.aName
+    order by count(artists.aName) desc
+    limit 10
+    
+    """
+
+    return query
+
+
+
 
 
 
