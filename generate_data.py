@@ -108,6 +108,7 @@ def generateFriends(userList, count = 500):
 def generateSongPlays(userlist, songlist, count=1000):
     #user song date
     songplays = []
+    random.seed(0)
 
     for i in range(count):
         user, userjoin = random.choice(userlist)

@@ -1,4 +1,4 @@
 *.sqlite
 music.csv
 *.sqbpro
-*.cpython*
+__pycache__/

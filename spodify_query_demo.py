@@ -88,3 +88,14 @@ alternative metal             |          3
 technical death metal         |          2
 tango                         |          2
 """
+
+#demo user song plays timeline for a year
+
+user = "dates348"
+year = 2020
+out = execute_read_query(connection, song_play_year_timeline_query(user, 2020))
+
+print(f"\nAll song plays by {user} in {year}: \n")
+print(f"{'Song Name':15}| {'Artist':20}| {'Date':10}")
+for a,b,c in out:
+   print(f"{a:15}| {b:20}| {c:10}")

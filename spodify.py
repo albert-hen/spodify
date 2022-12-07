@@ -188,30 +188,33 @@ create_playlist_table = """
 CREATE TABLE IF NOT EXISTS playlists(
     plID INTEGER PRIMARY KEY AUTOINCREMENT,
     plOwner TEXT NOT NULL,
+    plName TEXT NOT NULL,
     plDesc TEXT NOT NULL,
     FOREIGN KEY (plOwner) REFERENCES USERS (uName)
 );
 
 """
 
-def add_playlist_query(owner, description):
+def add_playlist_query(owner, name, description):
     query = f"""
         INSERT INTO
-            playlists (plOwner, plDesc)
-            VALUES ("{owner}", "{description}")
+            playlists (plOwner, plName, plDesc)
+            VALUES ("{owner}", "{name}", "{description}")
         """
     return query
+
+
 
 
 #playlist includes song table
 
 create_playlist_includes_table = """
 CREATE TABLE IF NOT EXISTS playlistincludes(
-    inclID INTEGER PRIMARY KEY AUTOINCREMENT,
     playlist INTEGER NOT NULL,
     song TEXT NOT NULL,
     FOREIGN KEY (playlist) REFERENCES PLAYLISTS (plID),
     FOREIGN KEY (song) REFERENCES songs (sID)
+    PRIMARY KEY (playlist, song)
 );
 
 """
@@ -327,6 +330,22 @@ def top_songs_year(year):
 
     return query
 
+# get songs played by user in order of date
+
+def song_play_year_timeline_query(user, year):
+    query = f"""
+    
+    SELECT sName, aName, playDATE FROM songplays
+    JOIN songs on songs.sID = songplays.songID
+    JOIN artists on artists.aID = songs.sArtist
+    WHERE songplays.userName = "{user}"
+    and playDATE BETWEEN "{year}-1-1" AND "{year}-12-31"
+    ORDER BY playDATE ASC
+    
+    """
+    return query
+
+#get songs in playlist
 
 
 

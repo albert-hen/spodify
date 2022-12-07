@@ -33,7 +33,7 @@ friendpairs = generateFriends(users)
 #load artists into database
 count = len(artists)
 for n, (id, name, country) in enumerate(artists):
-    
+    #break
     print(f"{n+1}/{count} artists loaded")
     #print(id, name, country)
     execute_query(connection, add_artist_query(artistName=name, artistID=id, artistCountry=country))
@@ -42,7 +42,7 @@ for n, (id, name, country) in enumerate(artists):
 #load users into database
 count = len(users)
 for n, (username, joindate) in enumerate(users):
-    
+    #break
     print(f"{n+1}/{count} users loaded")
     execute_query(connection, add_user_query(userName=username, joinDate=joindate))
 
@@ -50,7 +50,7 @@ for n, (username, joindate) in enumerate(users):
 #load songs into database
 count = len(songs)
 for n, (id, name, year, tempo, duration, lang, genre, artistid) in enumerate(songs):
-    
+    #break
     print(f"{n+1}/{count} songs loaded")
     execute_query(connection, add_song_query(
                                             songID=id,
@@ -65,7 +65,7 @@ for n, (id, name, year, tempo, duration, lang, genre, artistid) in enumerate(son
 #load friends into database
 count = len(friendpairs)
 for n, (fA, fB) in enumerate(friendpairs):
-    
+    #break
     print(f"{n+1}/{count} friendpairs loaded")
     execute_query(connection, add_friend_query(friendA=fA, friendB=fB))
 
@@ -74,8 +74,28 @@ for n, (fA, fB) in enumerate(friendpairs):
 songplays = generateSongPlays(users, songs, count=6000)
 count = len(songplays)
 for n, (user, song, date) in enumerate(songplays):
-    
+    #break
     print(f"{n+1}/{count} songplays loaded")
     execute_query(connection, add_song_play_query(user, song, date))
 
 
+#manually generate playlists to demo song reccomendation
+
+playlist1 = (users[0][0],"myplaylist 1", "this is a playlist")
+
+playlist2 = (users[1][0], "very good playlist", "songs i like")
+playlist3 = (users[2][0], "playlisttt", "hhhhhdesc")
+playlists = [playlist1, playlist2, playlist3]
+
+for o, n, desc in playlists:
+    execute_query(connection, add_playlist_query(o, n, desc))
+
+#add songs to playlists
+playlist1Songs = songs[0:10]
+playlist2Songs = songs[0:15]
+playlist3Songs = songs[0:5]
+playlistSongs = [playlist1Songs, playlist2Songs, playlist3Songs]
+
+for i, pls in enumerate(playlistSongs):
+    for song in pls:
+        execute_query(connection, add_playlist_includes(i+1, song[0]))
