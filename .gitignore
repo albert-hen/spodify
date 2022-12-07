@@ -1,2 +1,4 @@
 *.sqlite
 music.csv
+*.sqbpro
+*.cpython*

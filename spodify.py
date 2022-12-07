@@ -306,6 +306,27 @@ def most_listened_artist_year(year):
 
     return query
 
+def top_songs_year(year):
+    query = f"""
+    
+    select songs.sName, count(songs.sName), artists.aName
+
+    from songplays
+
+    join songs on songplays.songID=songs.sID
+    join artists on songs.sArtist=artists.aID
+
+    where date(songplays.playDate) between "{year}-01-01" and "{year}-12-31"
+
+    group by songs.sName
+
+    order by count(songs.sName) desc
+
+    limit 10
+    """
+
+    return query
+
 
 
 

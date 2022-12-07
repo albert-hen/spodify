@@ -3,6 +3,17 @@ from spodify import *
 dbfile = "spodify.sqlite"
 connection = create_connection(dbfile)
 
+#demo top_songs_of_year
+
+year = 2020
+out = execute_read_query(connection, top_songs_year(year))
+
+print(f"\nTop 10 songs in {year}\n")
+
+print(f"{'Song':30}| {'Artist':30}| {'Plays':10}")
+for sname, playcount, artist in out:
+   print(f"{sname:30}| {artist:30}| {playcount:10}")
+
 #demo most_listened_artist_year
 year = 2028
 out = execute_read_query(connection, most_listened_artist_year(year))
@@ -56,7 +67,7 @@ clonic922                     |         14
 #demo top_friend_played_genres_query
 user = "fortunately288"
 out = execute_read_query(connection, top_friend_played_genres_query(user))
-print(f"\nTop 10 Genres played among friends of {user}\n")
+print(f"\nTop 10 Genres played among friends of user: {user}\n")
 
 print(f"{'Genre':30}| {'Plays':10}")
 for a,b in out:
