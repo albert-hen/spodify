@@ -71,7 +71,7 @@ def random_date_between(start, end):
     return time.strftime(time_format, time.localtime(ptime))
     
 
-def generateUsers(count = 10, wordfile = "/usr/share/dict/cracklib-small", seed = 0):
+def generateUsers(count = 10, wordfile = "cracklib-small", seed = 0):
     random.seed(seed)
     
     userList = set()
