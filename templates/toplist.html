@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th>Song Name</th>
+        <th>Artist</th>
+        <th>Plays</th>
+      </tr>
+{% for song in topsongs %}
+<tr>
+    <th>{{song[0]}}</th>
+    <th>{{song[2]}}</th>
+    <th>{{song[1]}}</th>
+  </tr>
+
+
+{% endfor %}
+</table>

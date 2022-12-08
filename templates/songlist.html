@@ -1,0 +1,20 @@
+<table>
+    <tr>
+        <th>song id</th>
+        <th>song name</th>
+        <th>artist id</th>
+        <th>artist name</th>
+        
+      </tr>
+{% for s in songs %}
+<tr>
+    <th>{{s[0]}}</th>
+    <th>{{s[1]}}</th>
+    <th>{{s[2]}}</th>
+    <th>{{s[3]}}</th>
+    
+  </tr>
+
+
+{% endfor %}
+</table>
