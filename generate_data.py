@@ -10,7 +10,7 @@ def get_music_csv():
     musicCSVURL = "https://corgis-edu.github.io/corgis/datasets/csv/music/music.csv"
 
     if not exists("music.csv"):
-        print('hi')
+        print('downloading dataset')
         urllib.request.urlretrieve(musicCSVURL, 'music.csv')
     return
 

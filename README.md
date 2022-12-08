@@ -4,14 +4,27 @@ individual project for cs 6400 @ gatech
 
 this is a music social media database application
 
-to load the data run 
+# how to run
+
+install requirements
 
 ```
-rm spodify.sqlite && python3 spodify_load_demo.py
+pip install -r requirements.txt
 ```
 
-to run test script run
+download and generate data and load the database (takes about 90 seconds)
+
+```
+python3 spodify_load_demo.py
+```
+
+
+
+to run demo script
 
 ```
 python3 spodify_query_demo.py
 ```
+
+
+to reset the database please run ```rm spodify.sqlite``` to remove the old database file then run ```python3 spodify_load_demo.py```
