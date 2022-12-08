@@ -4,6 +4,8 @@ individual project for cs 6400 @ gatech
 
 this is a music social media database application
 
+requires python 3.10.6
+
 # how to run
 
 install requirements
