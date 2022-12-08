@@ -136,11 +136,11 @@ def add_friend_query(friendA, friendB):
 
 create_song_likes_table = """
 CREATE TABLE IF NOT EXISTS songlikes(
-    songlikeID INTEGER PRIMARY KEY AUTOINCREMENT,
     userName TEXT NOT NULL,
     songID TEXT NOT NULL,
     FOREIGN KEY (userName) REFERENCES USERS (uName),
-    FOREIGN KEY (songID) REFERENCES SONGS (sID)
+    FOREIGN KEY (songID) REFERENCES SONGS (sID),
+    PRIMARY KEY (userName, songID)
 );
 """
 
@@ -231,11 +231,11 @@ def add_playlist_includes(playlist, song):
 
 create_user_follows_playlist_table = """
 CREATE TABLE IF NOT EXISTS playlistfollows(
-    plFollowID INTEGER PRIMARY KEY AUTOINCREMENT,
     user TEXT NOT NULL,
     playlist INTEGER NOT NULL,
     FOREIGN KEY (user) REFERENCES USERS (uName),
-    FOREIGN KEY (playlist) REFERENCES playlists (plID)
+    FOREIGN KEY (playlist) REFERENCES playlists (plID),
+    PRIMARY KEY (user, playlist)
 );
 """
 
