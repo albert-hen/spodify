@@ -28,5 +28,10 @@ to run demo script
 python3 spodify_query_demo.py
 ```
 
+to run interactive web interface run 
 
-to reset the database please run ```rm spodify.sqlite``` to remove the old database file then run ```python3 spodify_load_demo.py```
+```python3 flaskapp.py
+```
+
+
+to reset the database please run ```rm spodify.sqlite``` (or manually delete file) to remove the old database file then again run ```python3 spodify_load_demo.py```
