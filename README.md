@@ -30,7 +30,8 @@ python3 spodify_query_demo.py
 
 to run interactive web interface run 
 
-```python3 flaskapp.py
+```
+python3 flaskapp.py
 ```
 
 
