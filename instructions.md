@@ -2,6 +2,12 @@
 
 requires python 3.10
 
+clone repository and enter repository
+```
+git clone https://github.com/albert-hen/spodify.git
+cd spodify
+```
+
 install requirements
 
 ```
