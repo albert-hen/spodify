@@ -27,3 +27,7 @@ python3 flaskapp.py
 ```
 
 to reset the database please run ```rm spodify.sqlite``` (or manually delete file) to remove the old database file then again run ```python3 spodify_load_demo.py```
+
+# references
+
+[python database tutorial](https://realpython.com/tutorials/databases/)
