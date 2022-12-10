@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect
+from flask import Flask,render_template,request,redirect,url_for
 from spodify import *
 
 dbfile = "spodify.sqlite"
@@ -12,7 +12,9 @@ def HelloWorld():
 
     return render_template('userlist.html', users = [("name", "dataeee"), ("hell yeah", "no")])
 
-
+@app.route('/')
+def home():
+    return redirect(url_for('Index'))
 
 @app.route('/index')
 
