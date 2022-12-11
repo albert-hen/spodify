@@ -1,6 +1,6 @@
 # instructions 
 
-requires python 3.10
+requires python 3.10, which comes with sqlite
 
 clone repository and enter repository
 ```
@@ -36,4 +36,22 @@ to reset the database please run ```rm spodify.sqlite``` (or manually delete fil
 
 # references
 
-[python database tutorial](https://realpython.com/tutorials/databases/)
+files written by me
+```
+flaskapp.py
+generate_data.py
+spodify_load_demo.py
+spodify_query_demo.py
+spodify.py
+```
+
+file with code not written by me
+```
+sqlite_setup.py
+```
+
+sqlite connection code used in ```sqlite_setup.py``` is from [python database tutorial](https://realpython.com/tutorials/databases/)
+
+data downloaded from [here](https://corgis-edu.github.io/corgis/datasets/csv/music/music.csv) as ```music.csv```
+
+```cracklib-small``` is a word list for username generation and is extracted from my ubuntu installation, source is likely [this](https://github.com/cracklib/cracklib/blob/master/src/dicts/cracklib-small)
